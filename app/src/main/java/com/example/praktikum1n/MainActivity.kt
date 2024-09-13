@@ -1,6 +1,5 @@
 package com.example.praktikum1n
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +13,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,31 +34,48 @@ class MainActivity : ComponentActivity() {
         setContent {
             Praktikum1NTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Title()
 
-                        var text by remember { mutableStateOf("")}
-                        var print by remember { mutableStateOf("")}
+                        var name by remember { mutableStateOf("") }
+                        var nim by remember { mutableStateOf("") }
 
-                        Column (){
+                        var printName by remember { mutableStateOf("") }
+                        var printNim by remember { mutableStateOf("") }
+
+                        Column {
                             OutlinedTextField(
-                                value = text,
-                                onValueChange = {text = it},
+                                value = name,
+                                onValueChange = { name = it },
                                 modifier = Modifier.padding(bottom = 12.dp),
-                                label = { Text("Masukkan kata")},
+                                label = { Text("Masukkan Nama") },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                             )
 
+                            OutlinedTextField(
+                                value = nim,
+                                onValueChange = { nim = it },
+                                modifier = Modifier.padding(bottom = 12.dp),
+                                label = { Text("Masukkan NIM") },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                            )
+
                             Button(onClick = {
-                                print = text
+                                printName = name
+                                printNim = nim
                             }) {
                                 Text("Submit")
                             }
 
                             Spacer(modifier = Modifier.padding(bottom = 24.dp))
-                            
-                            if(print.isNotBlank()){
-                                Text(print, style = MaterialTheme.typography.titleLarge)
+
+                            if (printName.isNotBlank() && printNim.isNotBlank()) {
+                                Text("Nama: $printName", style = MaterialTheme.typography.titleLarge)
+                                Text("NIM: $printNim", style = MaterialTheme.typography.titleLarge)
                             }
                         }
                     }
@@ -71,9 +86,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Title(){
-    Column() {
-        Text("Praktikum 2", style = MaterialTheme.typography.displayLarge, modifier = Modifier.padding(bottom = 24.dp))
+fun Title() {
+    Column {
+        Text("Praktikum 3", style = MaterialTheme.typography.displayLarge, modifier = Modifier.padding(bottom = 24.dp))
         Text("Nurul Annisa Murnastiti", style = MaterialTheme.typography.titleLarge)
         Text("235150209111008")
     }
