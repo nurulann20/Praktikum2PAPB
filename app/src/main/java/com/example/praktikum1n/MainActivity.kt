@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +49,8 @@ class MainActivity : ComponentActivity() {
                         var printName by remember { mutableStateOf("") }
                         var printNim by remember { mutableStateOf("") }
 
+                        val isFormFilled = name.isNotBlank() && nim.length == 15 && nim.all { it.isDigit() }
+
                         Column {
                             OutlinedTextField(
                                 value = name,
@@ -64,10 +68,18 @@ class MainActivity : ComponentActivity() {
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                             )
 
-                            Button(onClick = {
-                                printName = name
-                                printNim = nim
-                            }) {
+                            Button(
+                                onClick = {
+                                    if (isFormFilled) {
+                                        printName = name
+                                        printNim = nim
+                                    }
+                                },
+                                enabled = isFormFilled,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (isFormFilled) MaterialTheme.colorScheme.primary else Color.Gray
+                                )
+                            ) {
                                 Text("Submit")
                             }
 
@@ -88,7 +100,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Title() {
     Column {
-        Text("Praktikum 3", style = MaterialTheme.typography.displayLarge, modifier = Modifier.padding(bottom = 24.dp))
+        Text("Praktikum 4", style = MaterialTheme.typography.displayLarge, modifier = Modifier.padding(bottom = 24.dp))
         Text("Nurul Annisa Murnastiti", style = MaterialTheme.typography.titleLarge)
         Text("235150209111008")
     }
