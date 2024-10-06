@@ -82,7 +82,11 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = { /*TODO*/ }) {
+                        FloatingActionButton(onClick = {
+                            Intent(applicationContext, GithubProfile::class.java).also {
+                                startActivity(it)
+                            }
+                        }) {
                             Image(
                                 painter = painterResource(id = R.drawable.ic_github),
                                 contentDescription = stringResource(id = R.string.app_name)

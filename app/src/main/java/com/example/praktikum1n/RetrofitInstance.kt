@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     private const val BASE_URL = "https://api.github.com/"
-    private const val TOKEN = BuildConfig.TOKEN
+    private const val TOKEN = "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"
 
     fun getApiService(): UserService {
         val loggingInterceptor = if(BuildConfig.DEBUG) {
@@ -20,7 +20,7 @@ object RetrofitInstance {
         val interceptor = Interceptor { chain ->
             val req = chain.request()
             val requestHeaders = req.newBuilder()
-                .addHeader("Authorization", TOKEN)
+                .addHeader("Authorization", "Bearer $TOKEN")
                 .build()
             chain.proceed(requestHeaders)
         }
@@ -35,9 +35,7 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
+
         return retrofit.create(UserService::class.java)
-
-
-
     }
 }
