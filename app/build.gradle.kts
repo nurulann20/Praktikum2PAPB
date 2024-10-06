@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -73,5 +74,11 @@ dependencies {
     implementation(libs.google.firebase.firestore)
 
     implementation(libs.google.services)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.logging.interceptor)
+
 
 }
