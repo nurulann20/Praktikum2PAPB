@@ -20,7 +20,7 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "TOKEN", "\"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\"")
+        buildConfigField("String", "TOKEN", "\"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\"")
     }
 
     buildTypes {
