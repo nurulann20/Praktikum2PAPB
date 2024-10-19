@@ -72,7 +72,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.auth.ktx)
     implementation(libs.google.firebase.firestore)
 
@@ -84,4 +84,8 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.material)
 }

@@ -2,6 +2,7 @@ package com.example.praktikum1n
 
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Scene
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -15,6 +16,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.BottomAppBar
@@ -48,152 +51,56 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.praktikum1n.ui.theme.Praktikum1NTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : ComponentActivity() {
-    private lateinit var auth: FirebaseAuth
-
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        auth = Firebase.auth
-
         enableEdgeToEdge()
         setContent {
             Praktikum1NTheme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(colors = topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.primary
-                        ),
-                            title = {Text(text = "Nurul Annisa Murnastiti")})
-                    },
+                val navController = rememberNavController()
+                Scaffold (
                     bottomBar = {
-                        BottomAppBar(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.primary
-                        ) {
-                            Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "235150209111008")
-                        }
-                    },
-                    floatingActionButton = {
-                        FloatingActionButton(onClick = {
-                            Intent(applicationContext, GithubProfile::class.java).also {
-                                startActivity(it)
+                        BottomNavigation {
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navBackStackEntry?.destination
+                            items.forEach{ screen ->
+                            BottomNavigationItem(
+                                selected = currentDestination?.hierarchy?.any{it.route == screen.route} == true,
+                                label = { Text(stringResource(screen.resourceId))},
+                                icon = { Icon(screen.icon, contentDescription = null) },
+                                onClick = {
+                                    navController.navigate(screen.route){
+                                        popUpTo(navController.graph.findStartDestination().id){
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                },
+                                )
+
                             }
-                        }) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_github),
-                                contentDescription = stringResource(id = R.string.app_name)
-                            )
                         }
                     }
                 ) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Spacer(modifier = Modifier.padding(top = 24.dp))
-
-                        Title()
+                    NavHost(navController, startDestination = Screen.Matkul.route, Modifier.padding(innerPadding)) {
+                        composable(Screen.Matkul.route) { Matkul() }
+                        composable(Screen.Cerita.route) { Tugas() }
+                        composable(Screen.Profile.route) { GithubProfileComp() }
                     }
                 }
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-//                Surface(color = MaterialTheme.colorScheme.background) {
-//                    Column(
-//                        modifier = Modifier.fillMaxSize(),
-//                        verticalArrangement = Arrangement.Center,
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-//                        Title()
-//
-//                        var name by remember { mutableStateOf("") }
-//                        var nim by remember { mutableStateOf("") }
-//
-//                        var passwordToggle: Boolean by remember {
-//                            mutableStateOf(false)
-//                        }
-//
-////                        var printName by remember { mutableStateOf("") }
-////                        var printNim by remember { mutableStateOf("") }
-//
-//                        val isFormFilled =
-//                            name.isNotBlank() && nim.length == 15 && nim.all { it.isDigit() }
-//
-//                        Column {
-//                            OutlinedTextField(
-//                                value = name,
-//                                onValueChange = { name = it },
-//                                modifier = Modifier.padding(bottom = 12.dp),
-//                                label = { Text("Masukkan Email") },
-//                            )
-//
-//                            OutlinedTextField(
-//                                value = nim,
-//                                visualTransformation = if(passwordToggle) VisualTransformation.None else PasswordVisualTransformation(),
-//                                leadingIcon = {
-//                                    IconButton(onClick = {
-//                                        passwordToggle = !passwordToggle
-//                                    }) {
-//                                        Icon(imageVector = Icons.Filled.Face, contentDescription = "Visibility")
-//                                    }
-//                                },
-//                                onValueChange = { nim = it },
-//                                modifier = Modifier.padding(bottom = 12.dp),
-//                                label = { Text("Masukkan Password") },
-//                            )
-//
-//                            Button(
-//                                onClick = {
-//                                    auth.signInWithEmailAndPassword(name, nim).addOnCompleteListener { task ->
-//                                        if(task.isSuccessful){
-//                                            Intent(applicationContext, ListActivity::class.java).also {
-//                                                startActivity(it)
-//                                            }
-//                                        }else {
-//                                            Log.w("Error", "SignInFailed", task.exception)
-//                                            Toast.makeText(
-//                                                baseContext,
-//                                                "Email atau Password anda Salah",
-//                                                Toast.LENGTH_SHORT
-//                                            ).show()
-//                                        }
-//                                    }
-//                                },
-//                                colors = ButtonDefaults.buttonColors(
-//                                    containerColor = MaterialTheme.colorScheme.primary
-//                                )
-//                            ) {
-//                                Text("Login")
-//                            }
-//
-//                            Spacer(modifier = Modifier.padding(bottom = 24.dp))
-//                        }
-//                    }
-//                }
             }
         }
-    }
-}
-
-@Composable
-fun Title() {
-    Column {
-        Text("Praktikum 6", style = MaterialTheme.typography.displayLarge, modifier = Modifier.padding(bottom = 24.dp))
-        Text("Nurul Annisa Murnastiti", style = MaterialTheme.typography.titleLarge)
-        Text("235150209111008")
     }
 }

@@ -61,6 +61,20 @@ class ListActivity : ComponentActivity() {
 }
 
 @Composable
+fun Matkul() {
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Column(Modifier.padding(innerPadding).fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+            Title()
+
+            Spacer(modifier = Modifier.padding(16.dp))
+
+            getData()
+        }
+
+    }
+}
+
+@Composable
 fun getData(){
     val matkuls = remember {
         mutableStateListOf<matkul>()

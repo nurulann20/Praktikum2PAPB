@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "956005718127",
-    "project_id": "papb-d",
-    "storage_bucket": "papb-d.appspot.com"
+    "project_number": "964082339935",
+    "project_id": "helloworld-acfda",
+    "storage_bucket": "helloworld-acfda.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:956005718127:android:77e738f043553e3c42d59a",
+        "mobilesdk_app_id": "1:964082339935:android:20ad05df566aa43a2a0bea",
         "android_client_info": {
           "package_name": "com.example.praktikum1n"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDftQh4OnN2ytSw9wqrx0oLj-iN3DJe6jk"
+          "current_key": "AIzaSyAua8WpUdzXKr93RstHFnK2gLJYb_Y_qZM"
         }
       ],
       "services": {

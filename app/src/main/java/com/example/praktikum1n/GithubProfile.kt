@@ -97,44 +97,81 @@ class GithubProfile : ComponentActivity() {
             }
         }
     }
-    
-    @Composable
-    fun Display(data: UserItem){
-        Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+}
 
-            Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                AsyncImage(model = data.avatarUrl, contentDescription = "Github" )
+@Composable
+fun GithubProfileComp() {
+    Surface(Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
+
+            var data by remember {
+                mutableStateOf(UserItem())
             }
-            
-            Spacer(modifier = Modifier.padding(16.dp))
-            var bordersize = 220.dp
-            Column(
+
+            val scope = rememberCoroutineScope()
+
+            LaunchedEffect(key1 = true) {
+                scope.launch(Dispatchers.IO) {
+                    val response = try {
+                        RetrofitInstance.getApiService().getDetailUser2()
+                    }
+                    catch (e: HttpException) {
+//                        Toast.makeText(this@Column, "Error GET", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }catch (e: IOException) {
+//                        Toast.makeText(this@GithubProfile, "Error APP", Toast.LENGTH_SHORT).show()
+                        return@launch
+                    }
+                    if(response.isSuccessful && response.body() != null){
+                        withContext(Dispatchers.Main){
+                            data = response.body()!!
+                        }
+                    }else{
+
+                    }
+                }
+            }
+            Display(data = data)
+        }
+    }
+}
+
+@Composable
+fun Display(data: UserItem){
+    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+            AsyncImage(model = data.avatarUrl, contentDescription = "Github" )
+        }
+
+        Spacer(modifier = Modifier.padding(16.dp))
+        var bordersize = 220.dp
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .height(200.dp), verticalArrangement =  Arrangement.SpaceBetween, horizontalAlignment = Alignment.CenterHorizontally){
+            Text(text = data.login,
                 Modifier
-                    .fillMaxWidth()
-                    .height(200.dp), verticalArrangement =  Arrangement.SpaceBetween, horizontalAlignment = Alignment.CenterHorizontally){
-                Text(text = data.login,
-                    Modifier
-                        .width(bordersize)
-                        .clip(RoundedCornerShape(25.dp))
-                        .background(Color.Blue), textAlign = TextAlign.Center)
-                Text(text = data.name,
-                    Modifier
-                        .width(bordersize)
-                        .clip(RoundedCornerShape(25.dp))
-                        .background(Color.Blue), textAlign = TextAlign.Center)
+                    .width(bordersize)
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(Color.Blue), textAlign = TextAlign.Center)
+            Text(text = data.name,
+                Modifier
+                    .width(bordersize)
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(Color.Blue), textAlign = TextAlign.Center)
 
-                Text(text = "Followers: " + data.followers.toString(),
-                    Modifier
-                        .width(bordersize)
-                        .clip(RoundedCornerShape(25.dp))
-                        .background(Color.Blue), textAlign = TextAlign.Center)
+            Text(text = "Followers: " + data.followers.toString(),
+                Modifier
+                    .width(bordersize)
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(Color.Blue), textAlign = TextAlign.Center)
 
-                Text(text = "Following: " + data.following.toString(),
-                    Modifier
-                        .width(bordersize)
-                        .clip(RoundedCornerShape(25.dp))
-                        .background(Color.Blue), textAlign = TextAlign.Center)
-            }
+            Text(text = "Following: " + data.following.toString(),
+                Modifier
+                    .width(bordersize)
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(Color.Blue), textAlign = TextAlign.Center)
         }
     }
 }
