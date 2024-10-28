@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     private const val BASE_URL = "https://api.github.com/"
-    private const val TOKEN = BuildConfig.TOKEN
+    private const val TOKEN = "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"
 
     fun getApiService(): UserService {
         val loggingInterceptor = if(BuildConfig.DEBUG) {

@@ -4,6 +4,7 @@
     <string name="title_activity_github_profile">Profile</string>
     <string name="title_activity_homepage">Tugas</string>
     <string name="title_activity_login_screen">LoginScreen</string>
+    <string name="title_activity_room">Room</string>
 
 
 </resources>

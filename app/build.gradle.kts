@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -88,4 +89,14 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.material)
+
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    implementation (libs.androidx.camera.core)
+    implementation (libs.androidx.camera.camera2)
+    implementation (libs.androidx.camera.view)
+    implementation (libs.androidx.camera.lifecycle)
+
+    implementation(libs.guava)
 }
